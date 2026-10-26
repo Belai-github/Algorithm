@@ -30,7 +30,7 @@
 			"python": "pushd $dir; time LOCAL=true pypy -u $fileName < /home/ruthe/AtCoder/Algorithm/Python/std/input.txt > /home/ruthe/AtCoder/Algorithm/Python/std/output.txt; popd"
 		},
 		// "python.defaultInterpreterPath": "/home/ruthe/.pyenv/versions/pypy3.11-7.3.20/bin/pypy3",
-		"workbench.colorTheme": "Monokai",
+		"workbench.colorTheme": "Solarized Dark",
 		"search.exclude": {
 			"**/*.in": true,
 			"**/*.out": true,
