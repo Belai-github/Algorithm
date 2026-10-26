@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "WSL Clang++ Debug",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${fileDirname}/out/${fileBasenameNoExtension}",
+            "args": [],
+            "cwd": "${workspaceFolder:C++}",
+            "stopOnEntry": false,
+            "terminal": "integrated",
+            "stdio": [
+                "/home/ruthe/AtCoder/Algorithm/C++/std/input.txt",
+                "/home/ruthe/AtCoder/Algorithm/C++/std/output.txt",
+                null
+            ],
+            "initCommands": [
+                "settings set target.process.ignore-breakpoints-in-expressions false",
+                "settings set target.process.thread.step-avoid-regexp true",
+                "settings set target.process.thread.step-in-avoid-nodebug true",
+                "settings set target.process.thread.step-out-avoid-nodebug true",
+                "settings set target.process.follow-fork-mode child",
+                "settings set target.process.stop-on-exec true"
+            ],
+            "preLaunchTask": "Build (clang++ with MY_DEBUG_OPT_OFF)",
+            "env": {
+                "ASAN_OPTIONS": "detect_leaks=0"
+                // "LSAN_OPTIONS": "detect_leaks=0"
+            }
+        }
+    ]
+}

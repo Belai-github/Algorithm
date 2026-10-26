@@ -1,0 +1,71 @@
+{
+	"folders": [
+		{
+			"name": "Python",
+			"path": ".."
+		},
+		{
+			"name": "test",
+			"path": "../../test"
+		},
+		{
+			"name": "naive",
+			"path": "../../naive"
+		},
+		{
+			"name": "judge",
+			"path": "../../judge"
+		},
+		{
+			"name": "md",
+			"path": "../../md"
+		},
+		{
+			"name": "script",
+			"path": "../../script"
+		}
+	],
+	"settings": {
+		"code-runner.executorMap": {
+			"python": "pushd $dir; time LOCAL=true pypy -u $fileName < /home/ruthe/AtCoder/Algorithm/Python/std/input.txt > /home/ruthe/AtCoder/Algorithm/Python/std/output.txt; popd"
+		},
+		// "python.defaultInterpreterPath": "/home/ruthe/.pyenv/versions/pypy3.11-7.3.20/bin/pypy3",
+		"workbench.colorTheme": "Monokai",
+		"search.exclude": {
+			"**/*.in": true,
+			"**/*.out": true,
+			"**/*.md": true,
+		},
+		"[python]": {
+			"editor.defaultFormatter": "ms-python.black-formatter",
+			"editor.formatOnSave": true,
+			"editor.formatOnType": false
+		},
+		// Black Formatter extension settings
+		"black-formatter.interpreter": [
+			"/home/ruthe/AtCoder/.venv/bin/python3"
+		],
+		"black-formatter.importStrategy": "useBundled",
+		// Optional: format notebooks too (harmless for .py)
+		"notebook.formatOnSave.enabled": true,
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Python: Current File",
+				"type": "debugpy",
+				"request": "launch",
+				"program": "${file}",
+				"console": "integratedTerminal",
+				"args": [
+					"<",
+					"/home/ruthe/AtCoder/Algorithm/Python/std/input.txt",
+					">",
+					"/home/ruthe/AtCoder/Algorithm/Python/std/output.txt"
+				]
+			}
+		],
+		"compounds": []
+	}
+}

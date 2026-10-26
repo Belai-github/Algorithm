@@ -1,0 +1,16 @@
+BasedOnStyle: 'Chromium'
+IndentWidth: 4
+AccessModifierOffset: -2
+
+AllowShortFunctionsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: true
+AllowShortLoopsOnASingleLine: true
+AllowShortLambdasOnASingleLine: false
+AlwaysBreakTemplateDeclarations: false
+AlignTrailingComments: true
+BreakBeforeBraces: Attach
+SortIncludes: false
+ColumnLimit: 0
+Semi: false
+BreakBeforeBinaryOperators: true
+AlignOperands: AlignAfterOperator

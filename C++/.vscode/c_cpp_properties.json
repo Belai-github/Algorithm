@@ -1,0 +1,27 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "/home/ruthe/AtCoder/Algorithm/C++/lib"
+            ],
+            "forcedInclude": [
+                "${workspaceFolder}/pch/pch.hpp"
+            ],
+            "defines": [
+                "LOCAL"
+            ],
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "linux-gcc-x64",
+            "browse": {
+                "path": [
+                    "/home/ruthe/AtCoder/Algorithm/C++/lib"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            }
+        }
+    ],
+    "version": 4
+}

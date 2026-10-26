@@ -1,0 +1,163 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Test",
+            "command": "bash",
+            "args": [
+                "-c",
+                "chmod +x ../script/cptest.sh && ../script/cptest.sh ${fileBasenameNoExtension} ${file} 0"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+            }
+        },
+        {
+            "type": "shell",
+            "label": "Test with My Judge",
+            "command": "bash",
+            "args": [
+                "-c",
+                "chmod +x ../script/cptest.sh && ../script/cptest.sh ${fileBasenameNoExtension} ${file} 1"
+            ],
+            "group": {
+                "kind": "build",
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+            }
+        },
+        {
+            "type": "shell",
+            "label": "Test with Interactive Judge",
+            "command": "bash",
+            "args": [
+                "-c",
+                "chmod +x ../script/cptest.sh && ../script/cptest.sh ${fileBasenameNoExtension} ${file} 2"
+            ],
+            "group": {
+                "kind": "build",
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+            }
+        },
+        {
+            "type": "shell",
+            "label": "Generate New Files for AtCoder",
+            "command": "python3",
+            "args": [
+                "${workspaceFolder}/management/AtCoder_NewFile.py"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "type": "shell",
+            "label": "Generate New Files for yukicoder",
+            "command": "python3",
+            "args": [
+                "${workspaceFolder}/management/yukicoder_NewFile.py"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "type": "shell",
+            "label": "Scraping Statement of AtCoder Problem",
+            "command": "bash",
+            "args": [
+                "-c",
+                "chmod +x ../script/scraping.sh && ../script/scraping.sh ${fileBasenameNoExtension}"
+            ],
+            "group": {
+                "kind": "build",
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+            }
+        },
+        {
+            "type": "shell",
+            "label": "Copy testcases",
+            "command": "bash",
+            "args": [
+                "-c",
+                "chmod +x ../script/copy.sh && ../script/copy.sh ${fileBasenameNoExtension}"
+            ],
+            "group": {
+                "kind": "build",
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+            }
+        },
+        {
+            "type": "shell",
+            "label": "autoflake",
+            "command": "~/AtCoder/.venv/bin/autoflake",
+            "args": [
+                "--in-place",
+                "--remove-all-unused-imports",
+                "${file}"
+            ],
+            "group": {
+                "kind": "build",
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+            }
+        }
+    ]
+}

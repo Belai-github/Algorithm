@@ -1,0 +1,56 @@
+# Problem solutions and scratch code (including main.* and submission.cpp)
+/C++/src/
+/Python/src/
+
+# Problem-specific judges, brute-force solutions, tests, and notes
+/judge/
+/naive/
+/test/
+/md/
+
+# Local workflow scripts and input/output files
+/script/
+/C++/management/
+/Python/management/
+/C++/std/
+/Python/std/
+
+# Track VS Code settings, snippets, and .code-workspace files for migration
+# Ignore local metadata from other tools
+.idea/
+.cph/
+
+# Compiled binaries and precompiled headers (keep the .hpp sources)
+*.o
+*.obj
+*.exe
+*.out
+*.gch
+*.pch
+*.pdb
+*.dSYM/
+a.out
+build/
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local credentials and environment overrides
+.env
+.env.*
+!.env.example
+
+# OS and temporary editor files
+.DS_Store
+Thumbs.db
+Desktop.ini
+*~
+*.swp
+*.swo
+tempCodeRunnerFile.*

@@ -1,0 +1,19 @@
+{
+	"TODO": {
+		"prefix": "todo",
+		"body": "// TODO",
+		"description": "TODO"
+	},
+	"return": {
+		"prefix": "return",
+		"body": "return $1;\n$0"
+	},
+	"input": {
+		"prefix": "input",
+		"body": [
+			"${2:ll} $1;",
+			"cin >> tie($1);",
+			"$0"
+		]
+	}
+}

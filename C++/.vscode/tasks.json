@@ -1,0 +1,276 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cppbuild",
+			"label": "Build (g++)",
+			"command": "bash",
+			"args": [
+				"-lc",
+				"time g++ -DLOCAL -std=c++20 -g -O2 -Wall -fsanitize=address,undefined -include /home/ruthe/AtCoder/Algorithm/C++/pch/g++/pch.hpp -I /home/ruthe/AtCoder/Algorithm/C++/lib \"${file}\" -o \"${fileDirname}/out/${fileBasenameNoExtension}\" -H"
+			],
+			"options": {
+				"cwd": "${fileDirname}/out"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build",
+			"detail": "compiler: /usr/bin/g++"
+		},
+		{
+			"type": "cppbuild",
+			"label": "Build (clang++)",
+			"command": "bash",
+			"args": [
+				"-lc",
+				"time clang++ -DLOCAL -std=c++20 -g -O2 -w -fsanitize=address,undefined -include-pch /home/ruthe/AtCoder/Algorithm/C++/pch/clang++/pch.hpp.pch -I /home/ruthe/AtCoder/Algorithm/C++/lib \"${file}\" -o \"${fileDirname}/out/${fileBasenameNoExtension}\" -H"
+			],
+			"options": {
+				"cwd": "${fileDirname}/out"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build",
+			"detail": "compiler: /usr/bin/clang++"
+		},
+		{
+			"type": "cppbuild",
+			"label": "Build (clang++ with MY_DEBUG_OPT_OFF)",
+			"command": "bash",
+			"args": [
+				"-lc",
+				"time clang++ -DMY_DEBUG_OPT_OFF -DLOCAL -std=c++20 -g -O2 -w -fsanitize=address,undefined -include-pch /home/ruthe/AtCoder/Algorithm/C++/pch/clang++/pch.hpp.pch -I /home/ruthe/AtCoder/Algorithm/C++/lib \"${file}\" -o \"${fileDirname}/out/${fileBasenameNoExtension}\" -H"
+			],
+			"options": {
+				"cwd": "${fileDirname}/out"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build",
+			"detail": "compiler: /usr/bin/clang++"
+		},
+		{
+			"type": "shell",
+			"label": "Test",
+			"command": "bash",
+			"args": [
+				"-c",
+				"export ASAN_OPTIONS=detect_leaks=0; ../script/cptest.sh ${fileBasenameNoExtension} ${file} 0"
+			],
+			"group": {
+				"kind": "build",
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+			}
+		},
+		{
+			"type": "shell",
+			"label": "Test with My Judge",
+			"command": "bash",
+			"args": [
+				"-c",
+				"export ASAN_OPTIONS=detect_leaks=0; ../script/cptest.sh ${fileBasenameNoExtension} ${file} 1"
+			],
+			"group": {
+				"kind": "build",
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": true,
+			}
+		},
+		{
+			"type": "shell",
+			"label": "Test with Interactive Judge",
+			"command": "bash",
+			"args": [
+				"-c",
+				"export ASAN_OPTIONS=detect_leaks=0; ../script/cptest.sh ${fileBasenameNoExtension} ${file} 2"
+			],
+			"group": {
+				"kind": "build",
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": true,
+			}
+		},
+		{
+			"type": "shell",
+			"label": "Generating Test input",
+			"command": "bash",
+			"args": [
+				"-c",
+				"../script/cpgi.sh ${fileBasenameNoExtension}"
+			],
+			"group": {
+				"kind": "build",
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": true,
+			}
+		},
+		{
+			"type": "shell",
+			"label": "Generating Test output",
+			"command": "bash",
+			"args": [
+				"-c",
+				"../script/cpgo.sh ${fileBasenameNoExtension}"
+			],
+			"group": {
+				"kind": "build",
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": true,
+			}
+		},
+		{
+			"type": "shell",
+			"label": "Scraping Statement of AtCoder Problem",
+			"command": "bash",
+			"args": [
+				"-c",
+				"../script/scraping.sh ${fileBasenameNoExtension}"
+			],
+			"group": {
+				"kind": "build",
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+			}
+		},
+		{
+			"type": "shell",
+			"label": "Bundle a file for submission",
+			"command": "bash",
+			"args": [
+				"-c",
+				"../script/cpbundle.sh \"${file}\""
+			],
+			"group": {
+				"kind": "build",
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+			}
+		},
+		{
+			"type": "shell",
+			"label": "Copy testcases",
+			"command": "bash",
+			"args": [
+				"-c",
+				"../script/copy.sh ${fileBasenameNoExtension}"
+			],
+			"group": {
+				"kind": "build",
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": true,
+			}
+		},
+		{
+			"type": "shell",
+			"label": "Build and Test (g++)",
+			"dependsOn": [
+				"Build (g++)",
+				"Test"
+			],
+			"dependsOrder": "sequence",
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+		},
+		{
+			"type": "shell",
+			"label": "Build and Test (clang++)",
+			"dependsOn": [
+				"Build (clang++)",
+				"Test"
+			],
+			"dependsOrder": "sequence",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+		},
+		{
+			"type": "shell",
+			"label": "Generate New Files for AtCoder",
+			"command": "python3",
+			"args": [
+				"${workspaceFolder}/management/AtCoder_NewFile.py"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			}
+		},
+		{
+			"type": "shell",
+			"label": "Generate New Files for yukicoder",
+			"command": "python3",
+			"args": [
+				"${workspaceFolder}/management/yukicoder_NewFile.py"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			}
+		},
+	]
+}
