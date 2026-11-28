@@ -125,6 +125,60 @@ run_oj_with_diagnosis() {
     return $status
 }
 
+check_atcoder_login() (
+    local cookie_file="${XDG_DATA_HOME-$HOME/.local/share}/online-judge-tools/cookie.jar"
+    local check_dir
+    local login_output
+
+    if ! check_dir="$(mktemp -d)"; then
+        warn "AtCoder のログイン確認用ディレクトリを作成できませんでした。" >&2
+        return
+    fi
+    trap 'rm -f -- "$check_dir/cookie.jar"; rmdir -- "$check_dir"' EXIT
+
+    # oj login --check は Cookie を書き戻すため、コピーを使う。
+    if [[ -e "$cookie_file" ]] && ! cp -- "$cookie_file" "$check_dir/cookie.jar"; then
+        warn "AtCoder のログイン確認用に Cookie をコピーできませんでした。" >&2
+        return
+    fi
+
+    if ! login_output="$(timeout 5s "$OJ_EXEC" --cookie "$check_dir/cookie.jar" login --check https://atcoder.jp/ 2>&1)"; then
+        if [[ "$login_output" == *"You are not signed in."* ]]; then
+            warn "oj は AtCoder に未ログインです。コンテスト前に aclogin --tools oj でログイン状態を取り込んでください。CAPTCHA導入により oj login は使用不可となっています。手順:https://github.com/key-moon/aclogin#%E4%BD%BF%E3%81%84%E6%96%B9" >&2
+        else
+            warn "oj の AtCoder ログイン状態を確認できませんでした。" >&2
+        fi
+    fi
+)
+
+try_atcoder_submit() {
+    local submission_file="$1"
+
+    if "$VENV_PYTHON" ../script/AtCoder_Submit_Check.py "$problem_url"; then
+        if timeout 20s "$OJ_EXEC" submit --yes --wait 0 --no-open --language "$lang_id" \
+            "$problem_url" "$submission_file"; then
+            return 0
+        fi
+        warn "自動提出の成功を確認できませんでした。手動で提出する前に提出履歴を確認してください。"
+        info "${problem_url%%/tasks/*}/submissions/me"
+    fi
+
+    info "ブラウザの提出欄 ${problem_url%%#*}#submit"
+    return 1
+}
+
+submit_atcoder_cpp() (
+    local work_dir
+    work_dir="$(mktemp -d)" || return 1
+    local submission_file="$work_dir/submission.cpp"
+    trap 'rm -f -- "$submission_file"; rmdir -- "$work_dir"' EXIT
+
+    "$BUNDLE_SH" --output "$submission_file" "$file_path" || return
+    if ! try_atcoder_submit "$submission_file"; then
+        "$BUNDLE_SH" --publish "$submission_file" "$file_dir/submission.cpp"
+    fi
+)
+
 PYPY_EXEC="$HOME/.pyenv/versions/pypy3.11-7.3.20/bin/pypy3"
 VENV_PYTHON="$HOME/AtCoder/.venv/bin/python"
 OJ_EXEC="$HOME/AtCoder/.venv/bin/oj"
@@ -178,6 +232,11 @@ elif [[ "$contest_name" == "aoj"* ]]; then
 	problem_name="$problem_name_list_1"
 	contest_url="https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=$problem_name"
 	problem_url="https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=$problem_name"
+fi
+
+if [[ "$problem_url" == https://atcoder.jp/* ]]; then
+	# テスト結果と後処理の出力が終わってから警告を表示する。
+	trap 'check_atcoder_login' EXIT
 fi
 
 # ジャッジスクリプトのパス設定
@@ -282,15 +341,22 @@ if [ $oj_status -eq 0 ]; then
 	fi
 
 	if [[ "$file_path" == *.cpp ]]; then
-		set -o pipefail
-		$BUNDLE_SH "$file_path"
+		if [[ "$problem_url" == https://atcoder.jp/* ]]; then
+			submit_atcoder_cpp
+		else
+			"$BUNDLE_SH" "$file_path"
+		fi
 	elif [[ "$file_path" == *.py ]]; then
-		$AUTOFLAKE_EXEC --in-place --remove-all-unused-imports "$file_path"
-		result=$?
-		if [ $result -eq 0 ]; then
+		if "$AUTOFLAKE_EXEC" --in-place --remove-all-unused-imports "$file_path"; then
 			success "Python code formatted with autoflake."
+			if [[ "$problem_url" == https://atcoder.jp/* ]] && try_atcoder_submit "$file_path"; then
+				exit 0
+			fi
 		else
 			error "Failed to format Python code with autoflake."
+			if [[ "$problem_url" == https://atcoder.jp/* ]]; then
+				exit 1
+			fi
 		fi
 		if [ -x "$CLIP_EXE" ]; then
 			if command -v iconv >/dev/null 2>&1; then
@@ -310,36 +376,6 @@ if [ $oj_status -eq 0 ]; then
 			warn "clip.exe not found. Skipping clipboard copy."
 		fi
 	fi
-
-	# 自動提出部分はコメントアウト中
-	# URL 存在確認
-	# if curl -s -o /dev/null -w "%{http_code}" "$problem_url" | grep -q "^200$"; then
-	# 	info "Checking contest period..."
-
-	# 	# コンテスト期間チェック
-	# 	contest_check_result="$($VENV_PYTHON ../script/AtCoder_Contest_Period.py "$contest_url")"
-
-	# 	if [ "$contest_check_result" = "True" ]; then
-	# 		info "Contest is currently active. Submitting the solution..."
-
-	# 		# 自動提出
-	# 		$OJ_EXEC submit -l "$lang_id" "$problem_url" "$file_path"
-	# 		submit_status=$?
-
-	# 		if [ $submit_status -eq 0 ]; then
-	# 			success "Solution submitted successfully!"
-	# 		else
-	# 			error "Submission failed. Please check your login status or submit manually."
-	# 		fi
-	# 	else
-	# 		warn "Contest is not currently active (ended or not started yet)."
-	# 		info "Automatic submission is disabled outside of contest period."
-	# 		info "If you want to submit anyway, please use the following command manually:"
-	# 		echo -e "${YELLOW}$OJ_EXEC submit -l "$lang_id" \"$problem_url\" \"$file_path\"${NC}"
-	# 	fi
-	# else
-	# 	failure "Problem URL not found. Not submitting."
-	# fi
 
 else
 	failure "Some tests failed. Fix your sourcecode."
