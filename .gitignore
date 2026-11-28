@@ -8,9 +8,7 @@
 /test/
 /md/
 
-# Local management and input/output files
-/C++/management/
-/Python/management/
+# Local input/output files
 /C++/std/
 /Python/std/
 
