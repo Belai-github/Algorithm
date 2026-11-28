@@ -8,8 +8,7 @@
 /test/
 /md/
 
-# Local workflow scripts and input/output files
-/script/
+# Local management and input/output files
 /C++/management/
 /Python/management/
 /C++/std/
